@@ -22,7 +22,7 @@
     },
     "autoload" : {
         "psr-0" : {
-            "Org\Heigl\Color" : "src"
+            "Org\\Heigl\\Color" : "src"
         }
     }
 }
