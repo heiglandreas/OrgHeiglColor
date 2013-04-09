@@ -1,5 +1,5 @@
 {
-    "name" : "org_heigl/Color",
+    "name" : "org_heigl/color",
     "type" : "Library",
     "description" : "A Library to handle Colors. This includes conversion to and from different spaces including ICC-profiles as well as modifying existing colors",
     "keywords" : ["color", "color-profile", "icc-profile", "rgb", "cmyk", "conversion", "convert", "hsl", "lab", "hsv"],
