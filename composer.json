@@ -7,12 +7,12 @@
     "homepage" : "https://github.com/heiglandreas/OrgHeiglColor",
     "time" : "2013-04-09",
     "license" : "MIT",
-    "authors" : {
+    "authors" : [{
         "name" : "Andreas Heigl",
         "role" : "developer",
         "email" : "andreas@heigl.org",
         "homepage" : "http://andreas.heigl.org"
-    },
+    }],
     "support" : {
         "email" : "color@heigl.org",
         "issues" : "https://github.com/heiglandreas/OrgHeiglColor/issues"
