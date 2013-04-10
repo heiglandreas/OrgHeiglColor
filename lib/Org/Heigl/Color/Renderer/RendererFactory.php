@@ -46,7 +46,7 @@ class RendererFactory {
         $converter = new C\XYZ2RGB();
 
         $renderer->setConverter($converter)
-                 ->setWalker(function($a){return round($a);})
+                 ->setWalker(function($a){if($a>255){$a=255;}return round($a);})
                  ->setRenderString('#%1$02x%2$02x%3$02x');
 
         return $renderer;

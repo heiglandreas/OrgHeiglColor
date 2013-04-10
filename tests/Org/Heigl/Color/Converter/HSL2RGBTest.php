@@ -50,6 +50,8 @@ class HSL2RGBTest extends \PHPUnit_Framework_TestCase
         return array(
             array(array(0,0,0),array(0,0,0)),
             array(array(1,0,1),array(255,255,255)),
+            array(array(0.5, 0.75, 0.43921568627451),array(28, 196, 196)),
+            array(array(0,1,1),array(255,255,255)),
             array(array(1,0,0.5),array(127.5,127.5,127.5)),
             array(array(0.25,0.903,0.482), array(122.91,233.89773,11.92227)),
         );

@@ -25,37 +25,34 @@
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
  * @version   0.0
- * @since     05.04.13
+ * @since     09.04.13
  * @link      https://github.com/heiglandreas/
  */
 
-namespace Org\Heigl\Color\Handler;
+namespace Org\Heigl\Color\Converter;
 
-use \Org\Heigl\Color\Color;
 
-class HandlerFactory {
+class RGB2HSLTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
-     * Get a handler for merging two colors
-     *
-     * @param Color $color
-     *
-     * @return Merge
+     * @dataProvider rgb2HslConversionProvider
      */
-    public static function getMergeHandler(Color $color)
+    public function testRgb2HslConversion($result, $input)
     {
-        return new MergeHandler($color);
+        $converter = new RGB2HSL();
+
+        $this->assertEquals($result, $converter->convert($input));
     }
 
-    /**
-     * Get a handler for setting HSL-Values
-     *
-     * @param Color $color
-     *
-     * @return HslHandler
-     */
-    public static function getHslHandler(Color $color)
+    public function rgb2HslConversionProvider()
     {
-        return new HslHandler($color);
+        return array(
+            array(array(0,0,0),array(0,0,0)),
+            array(array(0.5, 0.75, 0.43921568627451),array(28, 196, 196)),
+            array(array(0,0,1),array(255,255,255)),
+            array(array(0,0,0.5),array(127.5,127.5,127.5)),
+            array(array(0.25,0.903,0.482), array(122.91,233.89773,11.92227)),
+        );
     }
 }

@@ -45,15 +45,23 @@ class BasicTest extends \PHPUnit_Framework_TestCase {
     }
     public function testExampleOne()
     {
-        $this->markTestSkipped('Handler is not yet implemented');
         // This uses a gras-green and changes it to a lighter variation
         // for usage as background-color
         $color   = C\ColorFactory::createFromRgb(123,234,12);
-//        $handler = C\Handler\HandlerFactory::getHslHandler($color);
-//        $handler->setSaturation(0.2);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($color);
+        $handler = C\Handler\HandlerFactory::getHslHandler($color);
+        $handler->setLuminance(0.8);
+        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
 
-        $this->assertEquals('#d3ebbc', $result);
-        // Prints #d3ebbc
+        $this->assertEquals('#ccfa9e', $result);
+    }
+
+    public function testExampleTwo()
+    {
+        $color = C\ColorFactory::createFromRgb(123,234,12);
+        $handler = C\Handler\HandlerFactory::getMergeHandler($color);
+        $handler->merge(C\ColorFactory::createFromRgb(123,234,12));
+        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
+
+        $this->assertEquals('#a9ff15', $result);
     }
 }

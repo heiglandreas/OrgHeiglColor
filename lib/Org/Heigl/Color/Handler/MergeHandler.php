@@ -44,6 +44,13 @@ class MergeHandler extends AbstractHandler
      */
     public function merge(Color $color)
     {
-        //TODO: Do something!!
+        $myColor = $this->getColor();
+        $X = $myColor->getX() + $color->getX();
+        $Y = $myColor->getY() + $color->getY();
+        $Z = $myColor->getZ() + $color->getZ();
+
+        $myColor->setXYZ($X, $Y, $Z);
+
+        return $this;
     }
 }

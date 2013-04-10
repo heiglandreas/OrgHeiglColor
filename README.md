@@ -19,9 +19,9 @@ You can use it as described in this short example. For more examples have a look
     use Org\Heigl\Color as C;
     $color   = C\ColorFactory::createFromRgb(123,234,12);
     $handler = C\Handler\HandlerFactory::getHslHandler($color);
-    $handler->setSaturation(0.2);
+    $handler->setLuminance(0.8);
     echo C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-    // Prints #d3ebbc
+    // Prints #ccfa9e
 
 alternate Example using a CMYK-Color as input and merging it with an RGB-Color
 to get a new color as HSL-Value

@@ -25,37 +25,40 @@
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
  * @version   0.0
- * @since     05.04.13
+ * @since     10.04.13
  * @link      https://github.com/heiglandreas/
  */
 
 namespace Org\Heigl\Color\Handler;
 
-use \Org\Heigl\Color\Color;
 
-class HandlerFactory {
+use Org\Heigl\Color\Color;
+use Org\Heigl\Color\ColorFactory;
 
+class MergeHandlerTest extends \PHPUnit_Framework_TestCase
+{
     /**
-     * Get a handler for merging two colors
-     *
-     * @param Color $color
-     *
-     * @return Merge
+     * @dataProvider mergeProvider
      */
-    public static function getMergeHandler(Color $color)
+    public function testMerge($input, $merge, $expect)
     {
-        return new MergeHandler($color);
+        $c1 = new Color();
+        $c1->setXYZ($input[0], $input[1], $input[2]);
+        $c2 = new Color();
+        $c2->setXYZ($merge[0], $merge[1], $merge[2]);
+        $c3 = new Color;
+        $c3->setXYZ($expect[0], $expect[1], $expect[2]);
+        $handler = new MergeHandler($c1);
+        $handler->merge($c2);
+
+        $this->assertEquals($c3, $handler->getColor());
     }
 
-    /**
-     * Get a handler for setting HSL-Values
-     *
-     * @param Color $color
-     *
-     * @return HslHandler
-     */
-    public static function getHslHandler(Color $color)
+    public function mergeProvider()
     {
-        return new HslHandler($color);
+        return array(
+            array(array(1,2,3), array(2,3,4), array(3,5,7)),
+        );
     }
+
 }

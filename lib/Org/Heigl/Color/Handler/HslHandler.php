@@ -49,33 +49,28 @@ class HslHandler extends AbstractHandler
     protected $hsl = array();
 
     /**
-     * Set a given Hue as new Hue for the color
-     *
-     * @param int|float $hue The hue-value to set either as int between 0 and 360
-     * or as float between 0 and 1
-     *
-     * @return HueHandler
-     */
-    public function setHue($hue)
-    {
-        $hsl = $this->getHsl();
-        $hsl[0] = $hue;
-        $this->setHsl($hsl);
-
-        return $this;
-    }
-
-    /**
      * Add a value to the given hue
      *
      * @param float|int $adapt
      *
-     * @return HueHandler
+     * @return HslHandler
      */
     public function addHue($hue)
     {
+        if (is_int($hue)) {
+            if (360 < $hue) {
+                $hue = $hue % 360;
+            }
+            $hue = $hue / 360;
+        }
+
         $hsl = $this->getHsl();
         $hsl[0] = $hsl[0] + $hue;
+
+        if (1 < $hsl[0]) {
+            $hsl[0] = $hsl[0] - (int) $hsl[0];
+        }
+
         $this->setHsl($hsl);
 
         return $this;
@@ -88,7 +83,7 @@ class HslHandler extends AbstractHandler
      */
     protected function getHsl()
     {
-        if (null === $this->hsl) {
+        if (! $this->hsl) {
             $converter = new C\ConverterChain();
             $converter->addConverter(new C\XYZ2RGB())
                       ->addConverter(new C\RGB2HSL());
@@ -128,13 +123,144 @@ class HslHandler extends AbstractHandler
      */
     public function getColor()
     {
-        $converter = new C\ConverterChain();
-        $converter->addConverter(new C\HSL2RGB())
-                  ->addConverter(new C\RGB2XYZ());
+        if ($this->hsl) {
+            $converter = new C\ConverterChain();
+            $converter->addConverter(new C\HSL2RGB())
+                      ->addConverter(new C\RGB2XYZ());
 
-        $XYZ = $converter->convert($this->hsl);
+            $XYZ = $converter->convert($this->getHsl());
 
-        $this->color->setXYZ($XYZ[0], $XYZ[1], $XYZ[2]);
+            $this->color->setXYZ($XYZ[0], $XYZ[1], $XYZ[2]);
+        }
         return parent::getColor();
+    }
+
+    /**
+     * Set a new Saturation value
+     *
+     * @param float $saturation
+     *
+     * @return HslHandler
+     */
+    public function setSaturation($saturation)
+    {
+        if (0 > $saturation || 1 < $saturation) {
+            return $this;
+        }
+
+        $hsl = $this->getHsl();
+        $hsl[1] = $saturation;
+
+        $this->setHsl($hsl);
+
+        return $this;
+    }
+
+    /**
+     * Add the given saturation to the existing one
+     *
+     * This will add a positive value to the saturation, a newgative value will
+     * be subtracted. When 0 or 1 is reached the value will be trunkated at
+     * these boundaries.
+     *
+     * @param float $saturation
+     *
+     * @return HslHandler
+     */
+    public function addSaturation($saturation)
+    {
+        $hsl = $this->getHsl();
+
+        $hsl[1] = $hsl[1] + $saturation;
+
+        if (0 > $hsl[1]) {
+            $hsl[1] = 0;
+        }
+        if (1 < $hsl[1]) {
+            $hsl[1] = 1;
+        }
+
+        $this->setHsl($hsl);
+
+        return $this;
+    }
+
+    /**
+     * Sets the luminance to the given one
+     *
+     * @param float $luminance
+     *
+     * @return HslHandler
+     */
+    public function setLuminance($luminance)
+    {
+        $hsl = $this->getHsl();
+
+        $hsl[2] = $luminance;
+
+        $this->setHsl($hsl);
+
+        return $this;
+    }
+
+    /**
+     * Adds the given luminance to the existing one
+     *
+     * @param float $luminance
+     *
+     * @return HslHandler
+     */
+    public function addLuminance($luminance)
+    {
+        $hsl = $this->getHsl();
+
+        $hsl[2] = $hsl[2] + $luminance;
+
+        if (0 > $hsl[2]) {
+            $hsl[2] = 0;
+        }
+        if (1 < $hsl[2]) {
+            $hsl[2] = 1;
+        }
+
+        $this->setHsl($hsl);
+
+        return $this;
+    }
+
+    /**
+     * Set the given Hue
+     *
+     * The hue must be given as float or integer.
+     *
+     * When a float is given it must be between 0.0 and 1.0 where 0.0 (and 1.0)
+     * are red, 0.33 represents green and 0.66 represents blue.
+     *
+     * When given as integer it has to be between 0 and 360 where 0 (and 360)
+     * are red, 120 represents green and 240 represents blue
+     *
+     * When the hue is greater that 1 or 360 respectively only the decimal part
+     * or the modulo of 360 is used.
+     *
+     * @param float|int $hue
+     *
+     * @return HslHandler
+     */
+    public function setHue($hue)
+    {
+        if (is_int($hue)) {
+            if (360 < $hue) {
+                $hue = $hue % 360;
+            }
+            $hue = $hue / 360;
+        }
+
+        $hsl = $this->getHsl();
+
+        $hsl[0] = $hue;
+
+        $this->setHsl($hsl);
+
+        return $this;
     }
 }
