@@ -2,6 +2,8 @@
 
 This library helps handling colors in PHP
 
+[![Build Status](https://travis-ci.org/heiglandreas/OrgHeiglColor.png?branch=master)](https://travis-ci.org/heiglandreas/OrgHeiglColor)
+
 ## Installation
 
 Simply install it using composer. Add the requirement ``org_heigl/color`` to your projects composer.json file and run ``composer install``. That should do the trick.
