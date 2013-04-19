@@ -45,6 +45,9 @@ class TableFactory {
         'gXYZ' => 'Greenpoint',
         'bXYZ' => 'Bluepoint',
         'cprt' => 'Copyright',
+        'rTRC' => 'RedCurve',
+        'gTRC' => 'GreenCurve',
+        'bTRC' => 'BlueCurve',
         ''
 
     );

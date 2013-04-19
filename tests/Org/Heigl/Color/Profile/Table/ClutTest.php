@@ -25,32 +25,32 @@
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
  * @version   0.0
- * @since     02.04.13
+ * @since     19.04.13
  * @link      https://github.com/heiglandreas/
  */
 
-namespace Org\Heigl\Color\Parser;
+namespace Org\Heigl\Color\Profile\Table;
 
 
-class S15Fixed16Number {
-
-    /**
-     * Convert an s15fixed16Number to a float value
-     *
-     * @param string|int $s15fixed16number
-     *
-     * @return float
-     */
-    public static function toFloat($s15fixed16number)
+class ClutTest extends \PHPUnit_Framework_TestCase
+{
+    public function testSettingEntry()
     {
-        if (is_int($s15fixed16number)) {
-            $s15fixed16number = pack('I', $s15fixed16number);
-        }
-        $f = unpack('nA/nB', $s15fixed16number);
-        if ($f['A']>=32768) {
-            $f['A'] = (65536 - $f['A']) * -1;
-        }
-        $f = $f['A'] + 1/65536 * $f['B'];
-        return $f;
+        $entry = pack('n*',
+            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044,
+            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044,
+            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044,
+            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044,
+            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044,
+            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044
+        );
+
+        $clut = $this->getMock('\Org\Heigl\Color\Profile\Table\Clut');
+
+        $obj = new Clut();
+        $obj->addEntry($clut);
+
+        $this->assertAttributeSame(array($clut), 'entry', $obj);
     }
+
 }

@@ -25,32 +25,29 @@
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
  * @version   0.0
- * @since     02.04.13
+ * @since     12.04.13
  * @link      https://github.com/heiglandreas/
  */
 
-namespace Org\Heigl\Color\Parser;
+namespace Org\Heigl\Color\Profile\TagType;
 
 
-class S15Fixed16Number {
+interface TagTypeInterface
+{
+
+    public function __construct($data);
+
+    public function render($data);
+
+    public function getKey($key);
 
     /**
-     * Convert an s15fixed16Number to a float value
+     * Get the value for a given color-part.
      *
-     * @param string|int $s15fixed16number
+     * @param float $value
      *
      * @return float
      */
-    public static function toFloat($s15fixed16number)
-    {
-        if (is_int($s15fixed16number)) {
-            $s15fixed16number = pack('I', $s15fixed16number);
-        }
-        $f = unpack('nA/nB', $s15fixed16number);
-        if ($f['A']>=32768) {
-            $f['A'] = (65536 - $f['A']) * -1;
-        }
-        $f = $f['A'] + 1/65536 * $f['B'];
-        return $f;
-    }
+    public function getValue($value);
+
 }
