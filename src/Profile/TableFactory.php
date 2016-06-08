@@ -40,7 +40,7 @@ class TableFactory
      *
      * @var array $tagMapper
      */
-    protected $tagMapper = array(
+    protected static $tagMapper = array(
         'wtpt' => 'Whitepoint',
         'rXYZ' => 'Redpoint',
         'gXYZ' => 'Greenpoint',
