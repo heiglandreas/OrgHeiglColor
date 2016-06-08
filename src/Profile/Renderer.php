@@ -75,14 +75,14 @@ class Renderer
             ;
         fseek($fh, 128);
 
-        $tagCount = (int)fread($fh, 4);
-        for ($i = 0; $i<$tagCount; $i++) {
+        $tagCount = unpack('Nint', fread($fh, 4));
+        for ($i = 0; $i<$tagCount['int']; $i++) {
             fseek($fh, 128+4+$i*12);
             $tagname = fread($fh, 4);
-            $offset = fread($fh, 4);
-            $size = fread($fh, 4);
-            fseek($fh, $offset);
-            $tag = TableFactory::getInstance($tagname, fread($fh, $size));
+            $offset = unpack('Nint', fread($fh, 4));
+            $size = unpack('Nint', fread($fh, 4));
+            fseek($fh, $offset['int']);
+            $tag = TableFactory::getInstance($tagname, fread($fh, $size['int']));
             $profile->addTable($tagname, $tag);
         }
 
