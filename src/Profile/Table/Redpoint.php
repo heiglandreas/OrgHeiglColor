@@ -25,43 +25,82 @@
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
  * @version   0.0
- * @since     05.04.13
+ * @since     26.03.13
  * @link      https://github.com/heiglandreas/
  */
 
-namespace Org_Heigl\IntegrationTest;
+namespace Org_Heigl\Color\Profile\Table;
 
-use Org_Heigl\Color as C;
+use Org_Heigl\Color\Color;
+use Org_Heigl\Color\Parser\S15Fixed16Number;
 
-class BasicTest extends \PHPUnit_Framework_TestCase {
 
-    public function testExampleZero()
+class Redpoint implements TableInterface
+{
+
+    /**
+     * Color of the red-Max-Point
+     *
+     * @var Color $redpoint
+     */
+    protected $redpoint = null;
+
+    /**
+     * Set the RedPoint
+     *
+     * @param Color $redpoint
+     *
+     * @return Rxyz
+     */
+    public function setRedpoint(Color $redpoint)
     {
-        $color  = C\ColorFactory::createFromRgb(123,234,12);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($color);
+        $this->redpoint = $redpoint;
 
-        $this->assertEquals('#7bea0c', $result);
-
+        return $this;
     }
-    public function testExampleOne()
+
+    /**
+     * Get the redpoint
+     *
+     * @return Color
+     */
+    public function getRedpoint()
     {
-        // This uses a gras-green and changes it to a lighter variation
-        // for usage as background-color
-        $color   = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getHslHandler($color);
-        $handler->setLuminance(0.8);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#ccfa9e', $result);
+        return $this->redpoint;
     }
 
-    public function testExampleTwo()
+    /**
+     * Set the content of this class
+     *
+     * @param string $content
+     */
+    public function setContent($content)
     {
-        $color = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getMergeHandler($color);
-        $handler->merge(C\ColorFactory::createFromRgb(123,234,12));
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
+        $x = substr($content, 8, 4);
+        $y = substr($content, 12, 4);
+        $z = substr($content, 16, 4);
+        $x = S15Fixed16Number::toFloat($x);
+        $y = S15Fixed16Number::toFloat($y);
+        $z = S15Fixed16Number::toFloat($z);
 
-        $this->assertEquals('#a9ff15', $result);
+        $color = new Color();
+        $color->setXYZ($x, $y, $z);
+
+        $this->setRedpoint($color);
+
+        return $this;
     }
+
+    /**
+     * Create an instance of the class
+     *
+     * @param Color $redpoint
+     */
+    public function __construct(Color $redpoint = null)
+    {
+        if (null !== $redpoint) {
+            $this->setRedpoint($redpoint);
+        }
+    }
+
 }

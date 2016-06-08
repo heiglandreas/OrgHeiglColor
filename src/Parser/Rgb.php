@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c)2013-2013 heiglandreas
+ * Copyright (c)2013-2013 Andreas Heigl
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -25,43 +25,52 @@
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
  * @version   0.0
- * @since     05.04.13
+ * @since     21.03.13
  * @link      https://github.com/heiglandreas/
  */
 
-namespace Org_Heigl\IntegrationTest;
+namespace Org_Heigl\Color\Parser;
 
-use Org_Heigl\Color as C;
+use Org_Heigl\Color\Converter as C;
+use Org_Heigl\Color\Color;
+/**
+ * Class Rgb
+ *
+ * @package Org\Heigl\Color\Parser
+ * @author    Andreas Heigl<andreas@heigl.org>
+ * @copyright ©2013-2013 Andreas Heigl
+ * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
+ * @version   0.0
+ * @since     21.03.13
+ * @link      https://github.com/heiglandreas/
+ */
+class Rgb extends AbstractParser
+{
+    /**
+     * The fully namespaced name of the default Converter-Class
+     *
+     * @param string $defaultConverter
+     */
+    protected $defaultConverter = '\\Org_Heigl\\Color\\Converter\\RGB2XYZ';
 
-class BasicTest extends \PHPUnit_Framework_TestCase {
-
-    public function testExampleZero()
+    /**
+     * Parse the given RGB-Values
+     *
+     * TODO: Implement the usage of ColorProfiles for parsing
+     * @param array $input
+     *
+     * @see ParserInterface::parse()
+     * @return Color
+     */
+    public function parse(array $input)
     {
-        $color  = C\ColorFactory::createFromRgb(123,234,12);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($color);
-
-        $this->assertEquals('#7bea0c', $result);
-
-    }
-    public function testExampleOne()
-    {
-        // This uses a gras-green and changes it to a lighter variation
-        // for usage as background-color
-        $color   = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getHslHandler($color);
-        $handler->setLuminance(0.8);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#ccfa9e', $result);
-    }
-
-    public function testExampleTwo()
-    {
-        $color = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getMergeHandler($color);
-        $handler->merge(C\ColorFactory::createFromRgb(123,234,12));
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#a9ff15', $result);
+//        $converter = new C\ConverterChain();
+//        $converter->addConverter(new C\RGB2XYZ())
+//                  ->addConverter(new C\XYZ2Lab());
+//
+        $converter = $this->getConverter();
+        $XYZ = $converter->convert($input);
+        $color = new Color();
+        return $color->setXYZ($XYZ[0], $XYZ[1], $XYZ[2]);
     }
 }

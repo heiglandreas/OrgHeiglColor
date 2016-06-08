@@ -25,43 +25,14 @@
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
  * @version   0.0
- * @since     05.04.13
+ * @since     25.03.13
  * @link      https://github.com/heiglandreas/
  */
 
-namespace Org_Heigl\IntegrationTest;
+namespace Org_Heigl\Color\Exception;
 
-use Org_Heigl\Color as C;
 
-class BasicTest extends \PHPUnit_Framework_TestCase {
+class FileNotFoundException extends \InvalidArgumentException
+{
 
-    public function testExampleZero()
-    {
-        $color  = C\ColorFactory::createFromRgb(123,234,12);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($color);
-
-        $this->assertEquals('#7bea0c', $result);
-
-    }
-    public function testExampleOne()
-    {
-        // This uses a gras-green and changes it to a lighter variation
-        // for usage as background-color
-        $color   = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getHslHandler($color);
-        $handler->setLuminance(0.8);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#ccfa9e', $result);
-    }
-
-    public function testExampleTwo()
-    {
-        $color = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getMergeHandler($color);
-        $handler->merge(C\ColorFactory::createFromRgb(123,234,12));
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#a9ff15', $result);
-    }
 }

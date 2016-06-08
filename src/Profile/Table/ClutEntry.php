@@ -25,43 +25,53 @@
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
  * @version   0.0
- * @since     05.04.13
+ * @since     18.04.13
  * @link      https://github.com/heiglandreas/
  */
 
-namespace Org_Heigl\IntegrationTest;
+namespace Org_Heigl\Color\Profile\Table;
 
-use Org_Heigl\Color as C;
 
-class BasicTest extends \PHPUnit_Framework_TestCase {
+class ClutEntry implements ClutInterface
+{
+    protected $entry = array();
 
-    public function testExampleZero()
+    /**
+     * @param ClutInterface $entry
+     *
+     * @see ClutInterface::addEntry
+     * @return ClutInterface
+     */
+    public function addEntry(ClutInterface $entry)
     {
-        $color  = C\ColorFactory::createFromRgb(123,234,12);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($color);
+        $this->entry[] = $entry;
 
-        $this->assertEquals('#7bea0c', $result);
-
-    }
-    public function testExampleOne()
-    {
-        // This uses a gras-green and changes it to a lighter variation
-        // for usage as background-color
-        $color   = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getHslHandler($color);
-        $handler->setLuminance(0.8);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#ccfa9e', $result);
+        return $this;
     }
 
-    public function testExampleTwo()
+    /**
+     * Create an instance of the class
+     * @param array $content
+     */
+    public function __construct(array $content = null)
     {
-        $color = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getMergeHandler($color);
-        $handler->merge(C\ColorFactory::createFromRgb(123,234,12));
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
+        if (null === $content) {
+            return;
+        }
 
-        $this->assertEquals('#a9ff15', $result);
+
+        $this->entry = $content;
+    }
+
+    /**
+     * Get the value for this entry
+     *
+     * @param float[] $input
+     *
+     * @return array
+     */
+    public function getValue(array $input)
+    {
+        return $this->entry;
     }
 }

@@ -25,43 +25,36 @@
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
  * @version   0.0
- * @since     05.04.13
+ * @since     09.04.13
  * @link      https://github.com/heiglandreas/
  */
 
-namespace Org_Heigl\IntegrationTest;
+namespace Org_Heigl\ColorTest\Converter;
 
-use Org_Heigl\Color as C;
 
-class BasicTest extends \PHPUnit_Framework_TestCase {
+use Org_Heigl\Color\Converter\RGB2HSL;
 
-    public function testExampleZero()
+class RGB2HSLTest extends \PHPUnit_Framework_TestCase
+{
+
+    /**
+     * @dataProvider rgb2HslConversionProvider
+     */
+    public function testRgb2HslConversion($result, $input)
     {
-        $color  = C\ColorFactory::createFromRgb(123,234,12);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($color);
+        $converter = new RGB2HSL();
 
-        $this->assertEquals('#7bea0c', $result);
-
-    }
-    public function testExampleOne()
-    {
-        // This uses a gras-green and changes it to a lighter variation
-        // for usage as background-color
-        $color   = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getHslHandler($color);
-        $handler->setLuminance(0.8);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#ccfa9e', $result);
+        $this->assertEquals($result, $converter->convert($input));
     }
 
-    public function testExampleTwo()
+    public function rgb2HslConversionProvider()
     {
-        $color = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getMergeHandler($color);
-        $handler->merge(C\ColorFactory::createFromRgb(123,234,12));
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#a9ff15', $result);
+        return array(
+            array(array(0,0,0),array(0,0,0)),
+            array(array(0.5, 0.75, 0.43921568627451),array(28, 196, 196)),
+            array(array(0,0,1),array(255,255,255)),
+            array(array(0,0,0.5),array(127.5,127.5,127.5)),
+            array(array(0.25,0.903,0.482), array(122.91,233.89773,11.92227)),
+        );
     }
 }

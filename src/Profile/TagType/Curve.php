@@ -25,43 +25,73 @@
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
  * @version   0.0
- * @since     05.04.13
+ * @since     12.04.13
  * @link      https://github.com/heiglandreas/
  */
 
-namespace Org_Heigl\IntegrationTest;
+namespace Org_Heigl\Color\Profile\TagType;
 
-use Org_Heigl\Color as C;
 
-class BasicTest extends \PHPUnit_Framework_TestCase {
+class Curve implements \Countable, TagTypeInterface
+{
+    protected $curve = array();
 
-    public function testExampleZero()
+    public function __construct($data)
     {
-        $color  = C\ColorFactory::createFromRgb(123,234,12);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($color);
-
-        $this->assertEquals('#7bea0c', $result);
-
-    }
-    public function testExampleOne()
-    {
-        // This uses a gras-green and changes it to a lighter variation
-        // for usage as background-color
-        $color   = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getHslHandler($color);
-        $handler->setLuminance(0.8);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#ccfa9e', $result);
+        $this->render($data);
     }
 
-    public function testExampleTwo()
+    public function render($data)
     {
-        $color = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getMergeHandler($color);
-        $handler->merge(C\ColorFactory::createFromRgb(123,234,12));
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#a9ff15', $result);
+        $curve = unpack('NID/NNull/NCounter/n*', $data);
+        $counter = $curve['Counter'];
+        unset($curve['ID']);
+        unset($curve['Null']);
+        unset($curve['Counter']);
+        if ($counter === count($curve)) {
+            $this->curve = array_values($curve);
+        }
+        return $this;
     }
+
+    public function count()
+    {
+        return count($this->curve);
+    }
+
+    public function getKey($key)
+    {
+        return $this->curve[$key];
+    }
+
+    /**
+     * Get the value for a given color-part.
+     *
+     * @param float $value
+     *
+     * @return float
+     */
+    public function getValue($value)
+    {
+        $value = $value * ($this->count() - 1);
+        $min   = floor($value);
+        if ($min == $value) {
+            return $this->getKey($min)/65535;
+        }
+        $diff = $value - $min;
+
+        $minVal = $this->getKey($min);
+        $maxVal = $this->getKey($min + 1);
+
+        $result = $minVal;
+
+        $difference = $maxVal - $minVal;
+        $result = $result + $difference * $diff;
+        $result = $result / 65535;
+
+        return $result;
+    }
+
+
+
 }

@@ -29,39 +29,20 @@
  * @link      https://github.com/heiglandreas/
  */
 
-namespace Org_Heigl\IntegrationTest;
+namespace Org_Heigl\ColorTest\Converter;
 
-use Org_Heigl\Color as C;
 
-class BasicTest extends \PHPUnit_Framework_TestCase {
+use Org_Heigl\Color\Converter\Plain;
 
-    public function testExampleZero()
+class PlainTest extends \PHPUnit_Framework_TestCase {
+
+    public function testConversion()
     {
-        $color  = C\ColorFactory::createFromRgb(123,234,12);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($color);
+        $converter = new Plain();
+        $input = array( 0, 1, 2);
 
-        $this->assertEquals('#7bea0c', $result);
+        $result = $converter->convert($input);
 
-    }
-    public function testExampleOne()
-    {
-        // This uses a gras-green and changes it to a lighter variation
-        // for usage as background-color
-        $color   = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getHslHandler($color);
-        $handler->setLuminance(0.8);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#ccfa9e', $result);
-    }
-
-    public function testExampleTwo()
-    {
-        $color = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getMergeHandler($color);
-        $handler->merge(C\ColorFactory::createFromRgb(123,234,12));
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#a9ff15', $result);
+        $this->assertEquals($input, $result);
     }
 }

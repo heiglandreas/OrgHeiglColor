@@ -29,39 +29,43 @@
  * @link      https://github.com/heiglandreas/
  */
 
-namespace Org_Heigl\IntegrationTest;
+namespace Org_Heigl\ColorTest\Converter;
 
-use Org_Heigl\Color as C;
 
-class BasicTest extends \PHPUnit_Framework_TestCase {
+use Org_Heigl\Color\Converter\ConverterChain;
 
-    public function testExampleZero()
+class ConverterChainTest extends \PHPUnit_Framework_TestCase {
+
+    public function testConverterChainOrder()
     {
-        $color  = C\ColorFactory::createFromRgb(123,234,12);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($color);
+        $chain = new ConverterChain();
 
-        $this->assertEquals('#7bea0c', $result);
+        $mock1 = $this->getmock('\\Org_Heigl\\Color\\Converter\\Plain');
+        $mock2 = $this->getmock('\\Org_Heigl\\Color\\Converter\\ConverterChain');
 
-    }
-    public function testExampleOne()
-    {
-        // This uses a gras-green and changes it to a lighter variation
-        // for usage as background-color
-        $color   = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getHslHandler($color);
-        $handler->setLuminance(0.8);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
+        $expectedResult   = array($mock1, $mock2);
+        $unexpectedResult = array($mock2, $mock1);
 
-        $this->assertEquals('#ccfa9e', $result);
+        $chain->addConverter($mock1);
+        $chain->addConverter($mock2);
+
+        $this->assertAttributeEquals($expectedResult, 'converters', $chain);
+        $this->assertAttributeNotEquals($unexpectedResult, 'converters', $chain);
     }
 
-    public function testExampleTwo()
+    public function testConverterChainParsing()
     {
-        $color = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getMergeHandler($color);
-        $handler->merge(C\ColorFactory::createFromRgb(123,234,12));
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
+        $chain = new ConverterChain();
+        $mock1 = $this->getMock('\\Org_Heigl\\Color\\Converter\\Plain');
+        $mock1->expects($this->once())
+              ->method('convert')
+              ->will($this->returnArgument(0));
 
-        $this->assertEquals('#a9ff15', $result);
+        $val   = array(1,2,3);
+
+        $chain->addConverter($mock1);
+
+        $this->assertEquals($val, $chain->convert($val));
+
     }
 }

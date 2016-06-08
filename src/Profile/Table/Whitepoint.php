@@ -25,43 +25,73 @@
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
  * @version   0.0
- * @since     05.04.13
+ * @since     26.03.13
  * @link      https://github.com/heiglandreas/
  */
 
-namespace Org_Heigl\IntegrationTest;
+namespace Org_Heigl\Color\Profile\Table;
 
-use Org_Heigl\Color as C;
+use Org_Heigl\Color\Color;
+use Org_Heigl\Color\Parser\S15Fixed16Number;
 
-class BasicTest extends \PHPUnit_Framework_TestCase {
 
-    public function testExampleZero()
+class Whitepoint implements TableInterface
+{
+
+    /**
+     * Color of the whitepoint
+     *
+     * @var Color $whitepoint
+     */
+    protected $whitepoint = null;
+
+    /**
+     * Set the whitepoint
+     *
+     * @param Color $whitepoint
+     *
+     * @return Whitespace
+     */
+    public function setWhitepoint(Color $whitepoint)
     {
-        $color  = C\ColorFactory::createFromRgb(123,234,12);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($color);
+        $this->whitepoint = $whitepoint;
 
-        $this->assertEquals('#7bea0c', $result);
-
+        return $this;
     }
-    public function testExampleOne()
+
+    /**
+     * Get the whitespace
+     *
+     * @return Color
+     */
+    public function getWhitepoint()
     {
-        // This uses a gras-green and changes it to a lighter variation
-        // for usage as background-color
-        $color   = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getHslHandler($color);
-        $handler->setLuminance(0.8);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#ccfa9e', $result);
+        return $this->whitepoint;
     }
 
-    public function testExampleTwo()
+    /**
+     * Set the content of this class
+     *
+     * @param string $content
+     */
+    public function setContent($content)
     {
-        $color = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getMergeHandler($color);
-        $handler->merge(C\ColorFactory::createFromRgb(123,234,12));
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#a9ff15', $result);
+        $x = substr($content, 8, 4);
+        $y = substr($content, 12, 4);
+        $z = substr($content, 16, 4);
+        $x = S15Fixed16Number::toFloat($x);
     }
+
+    /**
+     * Create an instance of the class
+     *
+     * @param Color $whitepoint
+     */
+    public function __construct(Color $whitepoint = null)
+    {
+        if (null !== $whitepoint) {
+            $this->setWhitepoint($whitepoint);
+        }
+    }
+
 }

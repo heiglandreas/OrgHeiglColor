@@ -25,43 +25,27 @@
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
  * @version   0.0
- * @since     05.04.13
+ * @since     03.04.13
  * @link      https://github.com/heiglandreas/
  */
 
-namespace Org_Heigl\IntegrationTest;
+namespace Org_Heigl\ColorTest\Profile\Table;
 
-use Org_Heigl\Color as C;
+use Org_Heigl\Color\Color;
 
-class BasicTest extends \PHPUnit_Framework_TestCase {
 
-    public function testExampleZero()
+class BluepointTest extends \PHPUnit_Framework_TestCase {
+
+    public function testRenderingBluepoint()
     {
-        $color  = C\ColorFactory::createFromRgb(123,234,12);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($color);
+        $value = pack('n*', 0x5859, 0x5A20, 0x0000, 0x0000, 0x0000, 0x24A0, 0x0000, 0x0F84, 0x0000, 0xB6CF);
+        $color = new Color();
+        $color->setXYZ(0.14306640625, 0.06060791015625, 0.71409606933594);
 
-        $this->assertEquals('#7bea0c', $result);
+        $table = new Bluepoint();
+        $table->setContent($value);
 
-    }
-    public function testExampleOne()
-    {
-        // This uses a gras-green and changes it to a lighter variation
-        // for usage as background-color
-        $color   = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getHslHandler($color);
-        $handler->setLuminance(0.8);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#ccfa9e', $result);
-    }
-
-    public function testExampleTwo()
-    {
-        $color = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getMergeHandler($color);
-        $handler->merge(C\ColorFactory::createFromRgb(123,234,12));
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#a9ff15', $result);
+        $this->assertEquals($color, $table->getBluepoint());
     }
 }
+

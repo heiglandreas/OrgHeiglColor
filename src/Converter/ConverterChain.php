@@ -25,43 +25,51 @@
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
  * @version   0.0
- * @since     05.04.13
+ * @since     22.03.13
  * @link      https://github.com/heiglandreas/
  */
 
-namespace Org_Heigl\IntegrationTest;
+namespace Org_Heigl\Color\Converter;
 
-use Org_Heigl\Color as C;
 
-class BasicTest extends \PHPUnit_Framework_TestCase {
+class ConverterChain implements ConverterInterface
+{
+    /**
+     * The chain of converters
+     *
+     * @var ConverterInterface[] $converters
+     */
+    protected $converters = array();
 
-    public function testExampleZero()
+    /**
+     * Add a converter to the converter chain
+     *
+     * @param ConverterInterface $converter
+     *
+     * @return ConverterChain
+     */
+    public function addConverter(ConverterInterface $converter)
     {
-        $color  = C\ColorFactory::createFromRgb(123,234,12);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($color);
+        $this->converters[] = $converter;
 
-        $this->assertEquals('#7bea0c', $result);
-
+        return $this;
     }
-    public function testExampleOne()
+
+    /**
+     * Convert the given color-information
+     *
+     * @param array $input
+     *
+     * @see ConverterInterface::convert()
+     * @return array
+     */
+    public function convert(array $input)
     {
-        // This uses a gras-green and changes it to a lighter variation
-        // for usage as background-color
-        $color   = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getHslHandler($color);
-        $handler->setLuminance(0.8);
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
+        foreach ($this->converters as $converter) {
+            $input = $converter->convert($input);
+        }
 
-        $this->assertEquals('#ccfa9e', $result);
+        return $input;
     }
 
-    public function testExampleTwo()
-    {
-        $color = C\ColorFactory::createFromRgb(123,234,12);
-        $handler = C\Handler\HandlerFactory::getMergeHandler($color);
-        $handler->merge(C\ColorFactory::createFromRgb(123,234,12));
-        $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($handler->getColor());
-
-        $this->assertEquals('#a9ff15', $result);
-    }
 }
