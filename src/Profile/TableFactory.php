@@ -74,7 +74,7 @@ class TableFactory
     public static function getInstance($tagName, $content)
     {
         if (! isset(static::$tagMapper[strtolower($tagName)])) {
-            return new NullTable();
+            return new \Org_Heigl\Color\Profile\Table\NullTable();
         }
 
         $class = static::$tagMapper[strtolower($tagName)];
