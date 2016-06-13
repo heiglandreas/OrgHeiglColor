@@ -32,6 +32,8 @@
 namespace Org_Heigl\Color\Converter;
 
 
+use Org_Heigl\Color\Color;
+
 class XYZ2RGB extends AbstractConverter implements ConverterInterface
 {
     /**
@@ -82,7 +84,7 @@ class XYZ2RGB extends AbstractConverter implements ConverterInterface
      *
      * @return array
      */
-    public function convertColor(\Org\Heigl\Color\Color $color)
+    public function convertColor(Color $color)
     {
         $array = array($color->getX(), $color->getY(), $color->getZ());
         return $this->convert($array);

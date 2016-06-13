@@ -37,7 +37,7 @@ class BasicTest extends \PHPUnit_Framework_TestCase {
 
     public function testExampleZero()
     {
-        $color  = C\ColorFactory::createFromRgb(123,234,12);
+        $color  = C\ColorFactory::createFromRgb(123, 234, 12);
         $result = C\Renderer\RendererFactory::getRgbHexRenderer()->render($color);
 
         $this->assertEquals('#7bea0c', $result);

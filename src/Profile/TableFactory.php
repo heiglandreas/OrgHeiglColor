@@ -31,6 +31,7 @@
 
 namespace Org_Heigl\Color\Profile;
 
+use Org_Heigl\Color\Profile\Table\NullTable;
 
 class TableFactory
 {
@@ -74,7 +75,7 @@ class TableFactory
     public static function getInstance($tagName, $content)
     {
         if (! isset(static::$tagMapper[strtolower($tagName)])) {
-            return new \Org_Heigl\Color\Profile\Table\NullTable();
+            return new NullTable();
         }
 
         $class = static::$tagMapper[strtolower($tagName)];

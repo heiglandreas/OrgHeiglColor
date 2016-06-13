@@ -34,6 +34,7 @@ namespace Org_Heigl\ColorTest\Profile\Table;
 
 use Org_Heigl\Color\Profile\Table\Clut;
 use Org_Heigl\Color\Profile\Table\ClutEntry;
+use Mockery as M;
 
 class ClutTest extends \PHPUnit_Framework_TestCase
 {
@@ -48,7 +49,7 @@ class ClutTest extends \PHPUnit_Framework_TestCase
             0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044
         );
 
-        $clut = $this->getMock('\Org_Heigl\Color\Profile\Table\Clut');
+        $clut = M::mock('\Org_Heigl\Color\Profile\Table\Clut');
 
         $obj = new Clut();
         $obj->addEntry($clut);

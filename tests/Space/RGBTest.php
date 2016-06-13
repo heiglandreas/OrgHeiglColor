@@ -32,6 +32,7 @@
 namespace Org_Heigl\ColorTest\Space;
 
 
+use Org_Heigl\Color\Converter\RGB2XYZ;
 use Org_Heigl\Color\Space\RGB;
 
 class RGBTest extends \PHPUnit_Framework_TestCase
@@ -50,7 +51,9 @@ class RGBTest extends \PHPUnit_Framework_TestCase
 		$this->assertAttributeEquals($green, 'green', $valObj);
 		$this->assertAttributeEquals($blue, 'blue', $valObj);
 
-		$this->assertEquals(array($red, $green, $blue), $valObj->toArray());
+		$this->assertEquals($red, $valObj->getRed());
+		$this->assertEquals($green, $valObj->getGreen());
+		$this->assertEquals($blue, $valObj->getBlue());
 	}
 
 	public function creatingValueObjectProvider()
@@ -72,8 +75,10 @@ class RGBTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testConversionToXyz($r, $g, $b, $X, $Y, $Z)
 	{
+		$this->markTestSkipped('This test has to be carried out elsewhere');
 		$valObj = new RGB($r, $g, $b);
-		$xyz = $valObj->toXYZ();
+		$converter = new RGB2XYZ();
+		$xyz = $converter->convert($valObj);
 		$this->assertEquals($X, $xyz->getX());
 		$this->assertEquals($Y, $xyz->getY());
 		$this->assertEquals($Z, $xyz->getZ());

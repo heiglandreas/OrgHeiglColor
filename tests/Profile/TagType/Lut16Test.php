@@ -33,6 +33,7 @@ namespace Org_Heigl\ColorTest\Profile\TagType;
 
 use Org_Heigl\Color\Profile\Table\ClutEntry;
 use Org_Heigl\Color\Profile\Table\Clut;
+use Org_Heigl\Color\Profile\Table\OneDimensionalTable;
 use Org_Heigl\Color\Profile\TagType\Lut16;
 
 class Lut16Test extends \PHPUnit_Framework_TestCase
@@ -96,7 +97,7 @@ class Lut16Test extends \PHPUnit_Framework_TestCase
             'matrix', $tag
         );
 
-        $table = new \Org\Heigl\Color\Profile\Table\OneDimensionalTable();
+        $table = new  OneDimensionalTable();
         $table->addEntries(array(0,65535));
         $this->assertAttributeEquals(
             array($table, $table, $table, $table),

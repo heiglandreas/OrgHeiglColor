@@ -42,9 +42,9 @@ class RGB
 	/**
 	 * Create a new Value-Object with RGB-vals from 0-255
 	 *
-	 * @param int $red
-	 * @param int $green
-	 * @param int $blue
+	 * @param float $red
+	 * @param float $green
+	 * @param float $blue
 	 */
 	public function __construct($red, $green, $blue)
 	{
