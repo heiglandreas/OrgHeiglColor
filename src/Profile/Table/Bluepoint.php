@@ -33,7 +33,7 @@ namespace Org_Heigl\Color\Profile\Table;
 
 use Org_Heigl\Color\Color;
 use Org_Heigl\Color\Parser\S15Fixed16Number;
-
+use Org_Heigl\Color\Space\XYZ;
 
 class Bluepoint implements TableInterface
 {
@@ -84,7 +84,7 @@ class Bluepoint implements TableInterface
         $z = S15Fixed16Number::toFloat($z);
 
         $color = new Color();
-        $color->setXYZ($x, $y, $z);
+        $color->setXYZ(new XYZ($x, $y, $z));
 
         $this->setBluepoint($color);
 

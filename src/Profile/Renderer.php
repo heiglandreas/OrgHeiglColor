@@ -88,17 +88,4 @@ class Renderer
 
         return $profile;
     }
-
-    /**
-     * Render a tag of the ICC-Profile
-     *
-     * @param string $tagname
-     * @param string $content
-     *
-     * @return Table\TableInterface
-     */
-    public static function renderProfileTag($tagname, $content)
-    {
-        return Org_Heigl\Color\Profile\TableFactory::getInstance($tagname, $content);
-    }
 }

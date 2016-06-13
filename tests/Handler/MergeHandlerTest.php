@@ -33,7 +33,8 @@ namespace Org_Heigl\ColorTest\Handler;
 
 
 use Org_Heigl\Color\Color;
-use Org_Heigl\Color\ColorFactory;
+use Org_Heigl\Color\Handler\MergeHandler;
+use Org_Heigl\Color\Space\XYZ;
 
 class MergeHandlerTest extends \PHPUnit_Framework_TestCase
 {
@@ -43,11 +44,11 @@ class MergeHandlerTest extends \PHPUnit_Framework_TestCase
     public function testMerge($input, $merge, $expect)
     {
         $c1 = new Color();
-        $c1->setXYZ($input[0], $input[1], $input[2]);
+        $c1->setXYZ(new XYZ($input[0], $input[1], $input[2]));
         $c2 = new Color();
-        $c2->setXYZ($merge[0], $merge[1], $merge[2]);
+        $c2->setXYZ(new XYZ($merge[0], $merge[1], $merge[2]));
         $c3 = new Color;
-        $c3->setXYZ($expect[0], $expect[1], $expect[2]);
+        $c3->setXYZ(new XYZ($expect[0], $expect[1], $expect[2]));
         $handler = new MergeHandler($c1);
         $handler->merge($c2);
 

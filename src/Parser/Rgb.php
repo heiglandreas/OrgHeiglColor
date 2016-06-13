@@ -33,6 +33,8 @@ namespace Org_Heigl\Color\Parser;
 
 use Org_Heigl\Color\Converter as C;
 use Org_Heigl\Color\Color;
+use Org_Heigl\Color\Space\XYZ;
+
 /**
  * Class Rgb
  *
@@ -71,6 +73,6 @@ class Rgb extends AbstractParser
         $converter = $this->getConverter();
         $XYZ = $converter->convert($input);
         $color = new Color();
-        return $color->setXYZ($XYZ[0], $XYZ[1], $XYZ[2]);
+        return $color->setXYZ(new XYZ($XYZ[0], $XYZ[1], $XYZ[2]));
     }
 }

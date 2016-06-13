@@ -32,6 +32,8 @@
 namespace Org_Heigl\ColorTest;
 
 use Org_Heigl\Color\Color;
+use Org_Heigl\Color\Space\Lab;
+use Org_Heigl\Color\Space\XYZ;
 
 class ColorTest extends \PHPUnit_Framework_TestCase
 {
@@ -45,7 +47,7 @@ class ColorTest extends \PHPUnit_Framework_TestCase
     public function testXYZColorConversion($XYZ, $Lab)
     {
         $color = new Color();
-        $color->setXYZ($XYZ[0], $XYZ[1], $XYZ[2]);
+        $color->setXYZ(new XYZ($XYZ[0], $XYZ[1], $XYZ[2]));
 
         $this->assertEquals($XYZ[0], $color->getX());
         $this->assertEquals($XYZ[1], $color->getY());

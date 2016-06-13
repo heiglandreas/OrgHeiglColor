@@ -33,6 +33,8 @@ namespace Org_Heigl\Color\Handler;
 
 use \Org_Heigl\Color\Color;
 use \Org_Heigl\Color\Converter as C;
+use Org_Heigl\Color\Space\XYZ;
+
 /**
  * Class HslHandler
  *
@@ -130,7 +132,7 @@ class HslHandler extends AbstractHandler
 
             $XYZ = $converter->convert($this->getHsl());
 
-            $this->color->setXYZ($XYZ[0], $XYZ[1], $XYZ[2]);
+            $this->color->setXYZ(new XYZ($XYZ[0], $XYZ[1], $XYZ[2]));
         }
         return parent::getColor();
     }

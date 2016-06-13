@@ -32,6 +32,7 @@
 namespace Org_Heigl\Color\Handler;
 
 use \Org_Heigl\Color\Color;
+use Org_Heigl\Color\Space\XYZ;
 
 class MergeHandler extends AbstractHandler
 {
@@ -49,7 +50,7 @@ class MergeHandler extends AbstractHandler
         $Y = $myColor->getY() + $color->getY();
         $Z = $myColor->getZ() + $color->getZ();
 
-        $myColor->setXYZ($X, $Y, $Z);
+        $myColor->setXYZ(new XYZ($X, $Y, $Z));
 
         return $this;
     }

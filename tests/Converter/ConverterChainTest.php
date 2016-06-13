@@ -33,6 +33,7 @@ namespace Org_Heigl\ColorTest\Converter;
 
 
 use Org_Heigl\Color\Converter\ConverterChain;
+use Mockery as M;
 
 class ConverterChainTest extends \PHPUnit_Framework_TestCase {
 
@@ -40,8 +41,8 @@ class ConverterChainTest extends \PHPUnit_Framework_TestCase {
     {
         $chain = new ConverterChain();
 
-        $mock1 = $this->getmock('\\Org_Heigl\\Color\\Converter\\Plain');
-        $mock2 = $this->getmock('\\Org_Heigl\\Color\\Converter\\ConverterChain');
+        $mock1 = M::mock('\\Org_Heigl\\Color\\Converter\\Plain');
+        $mock2 = M::mock('\\Org_Heigl\\Color\\Converter\\ConverterChain');
 
         $expectedResult   = array($mock1, $mock2);
         $unexpectedResult = array($mock2, $mock1);
@@ -56,10 +57,10 @@ class ConverterChainTest extends \PHPUnit_Framework_TestCase {
     public function testConverterChainParsing()
     {
         $chain = new ConverterChain();
-        $mock1 = $this->getMock('\\Org_Heigl\\Color\\Converter\\Plain');
-        $mock1->expects($this->once())
-              ->method('convert')
-              ->will($this->returnArgument(0));
+        $mock1 = M::mock('\\Org_Heigl\\Color\\Converter\\Plain');
+        $mock1->shouldReceive('convert')
+              ->once()
+              ->andReturn(0);
 
         $val   = array(1,2,3);
 
