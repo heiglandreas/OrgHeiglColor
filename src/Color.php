@@ -241,6 +241,9 @@ class Color
     public function setXYZ(XYZ $xyz)
     {
         $this->XYZ = $xyz;
+        $this->X = $this->XYZ->getX();
+        $this->Y = $this->XYZ->getY();
+        $this->Z = $this->XYZ->getZ();
 
         $this->setLabFromXYZ();
 
