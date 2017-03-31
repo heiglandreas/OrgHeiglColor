@@ -50,9 +50,7 @@ class Lab2XYZ
      */
     public function __construct()
     {
-        $this->whitepoint = new Color();
-        $xyz = new XYZ(0.95, 1.00, 1.08883);
-        $this->whitepoint->setXYZ($xyz);
+        $this->whitepoint = new Color(new XYZ(0.95, 1.00, 1.08883));
     }
 
     /**
@@ -85,9 +83,9 @@ class Lab2XYZ
             $var_Z = ($var_Z - 16 / 116 ) / 7.787;
         }
 
-        $X = $this->whitepoint->getX() * 100 * $var_X;
-        $Y = $this->whitepoint->getY() * 100 * $var_Y;
-        $Z = $this->whitepoint->getZ() * 100 * $var_Z;
+        $X = $this->whitepoint->getXYZ()->getX() * 100 * $var_X;
+        $Y = $this->whitepoint->getXYZ()->getY() * 100 * $var_Y;
+        $Z = $this->whitepoint->getXYZ()->getZ() * 100 * $var_Z;
 
         return new XYZ($X, $Y, $Z);
 

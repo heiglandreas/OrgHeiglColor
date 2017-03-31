@@ -39,15 +39,15 @@ class ColorContrastTest extends \PHPUnit_Framework_TestCase
     {
         $modifier = new ColorContrast();
 
-        self::assertEquals($contrast, $color);
+        self::assertEquals($contrast, $modifier($color));
     }
 
     public function contrastColorProvider()
     {
         return [
-            ColorFactory::createFromRgb(0,0,0), ColorFactory::createFromRgb(1,1,1),
-            ColorFactory::createFromRgb(1,1,1), ColorFactory::createFromRgb(0,0,0),
-            ColorFactory::createFromRgb(0.5,0.5,0.5), ColorFactory::createFromRgb(0,0,0),
+            [ColorFactory::createFromRgb(0,0,0), ColorFactory::createFromRgb(1,1,1)],
+            [ColorFactory::createFromRgb(1,1,1), ColorFactory::createFromRgb(0,0,0)],
+            [ColorFactory::createFromRgb(0.5,0.5,0.5), ColorFactory::createFromRgb(0,0,0)],
         ];
     }
 }

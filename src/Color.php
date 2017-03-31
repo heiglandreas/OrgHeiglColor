@@ -32,6 +32,7 @@
 namespace Org_Heigl\Color;
 
 use Org_Heigl\Color\Converter as C;
+use Org_Heigl\Color\Space\Lab;
 use Org_Heigl\Color\Space\XYZ;
 
 /**
@@ -50,50 +51,11 @@ use Org_Heigl\Color\Space\XYZ;
  */
 class Color
 {
-    const Lab = 'Lab';
-    const XYZ = 'XYZ';
+    /** @var  \Org_Heigl\Color\Space\Lab */
+    private $Lab;
 
-    /**
-     * The L-value of the color
-     *
-     * @var float $L
-     */
-    protected $L = null;
-
-    /**
-     * The a-value of the color
-     *
-     * @var float $a
-     */
-    protected $a = null;
-
-    /**
-     * The b-value of the color
-     *
-     * @var float $b
-     */
-    protected $b = null;
-
-    /**
-     * The X-Value of a color
-     *
-     * @var float $X
-     */
-    protected $X = null;
-
-    /**
-     * The Y-Value of a color
-     *
-     * @var float $Y
-     */
-    protected $Y = null;
-
-    /**
-     * The Z-Value of a color
-     *
-     * @var float $Z
-     */
-    protected $Z = null;
+    /** @var  \Org_Heigl\Color\Space\XYZ */
+    private $XYZ;
 
     /**
      * The Whitepoint for conversion of PCSLab to PCSXYZ and back
@@ -103,30 +65,128 @@ class Color
      *
      * @var float[] PCSwhitepoint
      */
-    protected $PCSwhitepoint = array(
-        'X' => 0.9642,
-        'Y' => 1.0000,
-        'Z' => 0.8249,
-        'L' => 1.0000,
+    private $PCSwhitepoint = array(
+        'X' => 96.42,
+        'Y' => 100.00,
+        'Z' => 82.49,
+        'L' => 100.00,
         'a' => 0.0000,
         'b' => 0.0000,
     );
 
     /**
+     * Color constructor.
+     *
+     * @param Lab|XYZ $colorspace
+     */
+    public function __construct($colorspace)
+    {
+        if ($colorspace instanceof Lab) {
+            $this->setLab($colorspace);
+            return;
+        }
+
+        if ($colorspace instanceof XYZ) {
+            $this->setXYZ($colorspace);
+            return;
+        }
+
+        throw new \UnexpectedValueException('The provided value was neither Lab nor XYZ');
+    }
+
+    /**
+     * @return \Org_Heigl\Color\Space\Lab
+     */
+    public function getLab()
+    {
+        return $this->Lab;
+    }
+
+    /**
+     * @return \Org_Heigl\Color\Space\XYZ
+     */
+    public function getXYZ()
+    {
+        return $this->XYZ;
+    }
+
+    /**
+     * Get the L-value
+     *
+     * @deprecated use Color::getLab instead
+     * @return float
+     */
+    public function getL()
+    {
+        return $this->getLab()->getL();
+    }
+
+    /**
+     * Get the a-value
+     *
+     * @deprecated use Color::getLab instead
+     * @return float
+     */
+    public function geta()
+    {
+        return $this->getLab()->getA();
+    }
+
+    /**
+     * Get the b-value
+     *
+     * @deprecated use Color::getLab instead
+     * @return float
+     */
+    public function getb()
+    {
+        return $this->getLab()->getB();
+    }
+
+    /**
+     * Get the X-Value
+     *
+     * @deprecated use Color::getXYZ instead
+     * @return float
+     */
+    public function getX()
+    {
+        return $this->getXYZ()->getX();
+    }
+
+    /**
+     * Get the Y-value
+     *
+     * @deprecated use Color::getXYZ instead
+     * @return float
+     */
+    public function getY()
+    {
+        return $this->getXYZ()->getY();
+    }
+
+    /**
+     * Get the Z-value
+     *
+     * @deprecated use Color::getXYZ instead
+     * @return float
+     */
+    public function getZ()
+    {
+        return $this->getXYZ()->getZ();
+    }
+
+
+    /**
      * Set Lab-values
      *
-     * @param float $L The L-Value of the color
-     * @param float $a The a-value of the color
-     * @param float $b The b-value of the color
+     * @param Lab $lab
      *
      * @return Color
      */
-    public function setLab($L, $a, $b)
+    private function setLab(Lab $lab)
     {
-        $this->L = $L;
-        $this->a = $a;
-        $this->b = $b;
-
+        $this->Lab = $lab;
         $this->setXYZfromLab();
 
         return $this;
@@ -137,11 +197,11 @@ class Color
      *
      * @return Color
      */
-    protected function setXYZfromLab()
+    private function setXYZfromLab()
     {
-        $var_Y = ($this->L + 16) / 116;
-        $var_X = $this->a / 500 + $var_Y;
-        $var_Z = $var_Y - $this->b / 200;
+        $var_Y = ($this->Lab->getL() + 16) / 116;
+        $var_X = $this->Lab->getA() / 500 + $var_Y;
+        $var_Z = $var_Y - $this->Lab->getB() / 200;
 
         if (pow($var_Y, 3) > 0.008856) {
             $var_Y = pow($var_Y, 3);
@@ -159,9 +219,11 @@ class Color
             $var_Z = ($var_Z - 16 / 116 ) / 7.787;
         }
 
-        $this->X = $this->PCSwhitepoint['X'] /* 100*/ * $var_X;
-        $this->Y = $this->PCSwhitepoint['Y'] /* 100*/ * $var_Y;
-        $this->Z = $this->PCSwhitepoint['Z'] /* 100*/ * $var_Z;
+        $this->XYZ = new XYZ(
+            $this->PCSwhitepoint['X'] * $var_X,
+            $this->PCSwhitepoint['Y'] * $var_Y,
+            $this->PCSwhitepoint['Z'] * $var_Z
+        );
 
         return $this;
     }
@@ -169,13 +231,13 @@ class Color
     /**
      * Set the Lab Values from existing XYZ-Values
      *
-     * @return Color
+     * @return void
      */
-    protected function setLabFromXYZ()
+    private function setLabFromXYZ()
     {
-        $var_X = $this->X / $this->PCSwhitepoint['X'];
-        $var_Y = $this->Y / $this->PCSwhitepoint['Y'];
-        $var_Z = $this->Z / $this->PCSwhitepoint['Z'];
+        $var_X = $this->XYZ->getX() / $this->PCSwhitepoint['X'];
+        $var_Y = $this->XYZ->getY() / $this->PCSwhitepoint['Y'];
+        $var_Z = $this->XYZ->getZ() / $this->PCSwhitepoint['Z'];
 
         if ($var_X > 0.008856) {
             $var_X = pow($var_X, (1/3));
@@ -193,91 +255,24 @@ class Color
             $var_Z = (7.787 * $var_Z) + (16 / 116);
         }
 
-        $this->L = (116 * $var_Y) - 16;
-        $this->a = 500 * ($var_X - $var_Y);
-        $this->b = 200 * ($var_Y - $var_Z);
-    }
+        $this->Lab = new Lab(
+            (116 * $var_Y) - 16,
+            500 * ($var_X - $var_Y),
+            200 * ($var_Y - $var_Z)
+        );
 
-    /**
-     * Get the L-value
-     *
-     * @return float
-     */
-    public function getL()
-    {
-        return $this->L;
-    }
-
-    /**
-     * Get the a-value
-     *
-     * @return float
-     */
-    public function geta()
-    {
-        return $this->a;
-    }
-
-    /**
-     * Get the b-value
-     *
-     * @return float
-     */
-    public function getb()
-    {
-        return $this->b;
-    }
-
+        }
 
     /**
      * Set the XYZ
      *
      * @param XYZ $xyz
-     * @param float $Y
-     * @param float $Z
      *
-     * @return Color
+     * @return void
      */
-    public function setXYZ(XYZ $xyz)
+    private function setXYZ(XYZ $xyz)
     {
         $this->XYZ = $xyz;
-        $this->X = $this->XYZ->getX();
-        $this->Y = $this->XYZ->getY();
-        $this->Z = $this->XYZ->getZ();
-
         $this->setLabFromXYZ();
-
-        return $this;
     }
-
-    /**
-     * Get the X-Value
-     *
-     * @return float
-     */
-    public function getX()
-    {
-        return $this->X;
-    }
-
-    /**
-     * Get the Y-value
-     *
-     * @return float
-     */
-    public function getY()
-    {
-        return $this->Y;
-    }
-
-    /**
-     * Get the Z-value
-     *
-     * @return float
-     */
-    public function getZ()
-    {
-        return $this->Z;
-    }
-
 }

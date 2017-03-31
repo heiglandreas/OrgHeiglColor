@@ -39,11 +39,18 @@ class Lab
 
 	protected $b = null;
 
+    /**
+     * Lab constructor.
+     *
+     * @param float $L Within range 0 to 100
+     * @param float $a Within range -128 to 128
+     * @param float $b Within range -128 and 128
+     */
 	public function __construct($L, $a, $b)
 	{
-		$this->L = $L;
-		$this->a = $a;
-		$this->b = $b;
+	    $this->L = round($L, 1);
+	    $this->a = round($a, 1);
+	    $this->b = round($b, 1);
 	}
 
 	public function getL()

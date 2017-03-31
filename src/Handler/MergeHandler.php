@@ -50,8 +50,6 @@ class MergeHandler extends AbstractHandler
         $Y = $myColor->getY() + $color->getY();
         $Z = $myColor->getZ() + $color->getZ();
 
-        $myColor->setXYZ(new XYZ($X, $Y, $Z));
-
-        return $this;
+        return new Color(new XYZ($X, $Y, $Z));
     }
 }

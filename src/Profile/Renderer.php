@@ -32,6 +32,7 @@
 namespace Org_Heigl\Color\Profile;
 
 use Org_Heigl\Color\Exception\FileNotFoundException;
+use Org_Heigl\Color\Profile\Type\DateTimeNumber;
 
 class Renderer
 {
@@ -61,7 +62,7 @@ class Renderer
                 ->setHeader('class', fread($fh, 4))
                 ->setHeader('space', fread($fh, 4))
                 ->setHeader('pcs', fread($fh, 4))
-                ->setHeader('datetime', fread($fh, 12))
+                ->setHeader('datetime', new DateTimeNumber(fread($fh, 12)))
                 ->setHeader('sig', fread($fh, 4))
                 ->setHeader('platform', fread($fh, 4))
                 ->setHeader('flags', fread($fh, 4))

@@ -83,8 +83,7 @@ class Bluepoint implements TableInterface
         $y = S15Fixed16Number::toFloat($y);
         $z = S15Fixed16Number::toFloat($z);
 
-        $color = new Color();
-        $color->setXYZ(new XYZ($x, $y, $z));
+        $color = new Color(new XYZ($x, $y, $z));
 
         $this->setBluepoint($color);
 

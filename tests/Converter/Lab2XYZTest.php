@@ -34,6 +34,7 @@ namespace Org_Heigl\ColorTest\Converter;
 
 use Org_Heigl\Color\Converter\Lab2XYZ;
 use Org_Heigl\Color\Space\Lab;
+use Org_Heigl\Color\Space\XYZ;
 
 class Lab2XYZTest extends \PHPUnit_Framework_TestCase
 {
@@ -51,11 +52,11 @@ class Lab2XYZTest extends \PHPUnit_Framework_TestCase
     public function rgb2HslConversionProvider()
     {
         return array(
-            array(array(0,0,0),new Lab(0,0,0)),
-            array(array(0.5, 0.75, 0.43921568627451),new Lab(28, 196, 196)),
-            array(array(0,0,1),new Lab(255,255,255)),
-            array(array(0,0,0.5),new Lab(127.5,127.5,127.5)),
-            array(array(0.25,0.903,0.482), new Lab(122.91,233.89773,11.92227)),
+            array(new XYZ(0,0,0),new Lab(0,0,0)),
+            array(new XYZ(0.5, 0.75, 0.43921568627451),new Lab(28, 196, 196)),
+            array(new XYZ(0,0,1),new Lab(255,255,255)),
+            array(new XYZ(0,0,0.5),new Lab(127.5,127.5,127.5)),
+            array(new XYZ(0.25,0.903,0.482), new Lab(122.91,233.89773,11.92227)),
         );
     }
 }

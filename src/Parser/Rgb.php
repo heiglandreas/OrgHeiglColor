@@ -72,7 +72,6 @@ class Rgb extends AbstractParser
 //
         $converter = $this->getConverter();
         $XYZ = $converter->convert($input);
-        $color = new Color();
-        return $color->setXYZ(new XYZ($XYZ[0], $XYZ[1], $XYZ[2]));
+        return new Color(new XYZ($XYZ[0], $XYZ[1], $XYZ[2]));
     }
 }

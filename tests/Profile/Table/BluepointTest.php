@@ -40,8 +40,7 @@ class BluepointTest extends \PHPUnit_Framework_TestCase {
     public function testRenderingBluepoint()
     {
         $value = pack('n*', 0x5859, 0x5A20, 0x0000, 0x0000, 0x0000, 0x24A0, 0x0000, 0x0F84, 0x0000, 0xB6CF);
-        $color = new Color();
-        $color->setXYZ(new XYZ(0.14306640625, 0.06060791015625, 0.71409606933594));
+        $color = new Color(new XYZ(0.14306640625, 0.06060791015625, 0.71409606933594));
 
         $table = new Bluepoint();
         $table->setContent($value);

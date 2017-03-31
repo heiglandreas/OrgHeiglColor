@@ -39,9 +39,16 @@ class XYZ
 
 	protected $Z = null;
 
+    /**
+     * XYZ constructor.
+     *
+     * @param $X Within Range 0 to 96.42
+     * @param $Y Within range 0 to 100.00
+     * @param $Z Within range 0 to 82.52
+     */
 	public function __construct($X, $Y, $Z)
 	{
-		$this->X = $X;
+        $this->X = $X;
 		$this->Y = $Y;
 		$this->Z = $Z;
 	}

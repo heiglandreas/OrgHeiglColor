@@ -46,8 +46,7 @@ class ColorTest extends \PHPUnit_Framework_TestCase
      */
     public function testXYZColorConversion($XYZ, $Lab)
     {
-        $color = new Color();
-        $color->setXYZ(new XYZ($XYZ[0], $XYZ[1], $XYZ[2]));
+        $color = new Color(new XYZ($XYZ[0], $XYZ[1], $XYZ[2]));
 
         $this->assertEquals($XYZ[0], $color->getX());
         $this->assertEquals($XYZ[1], $color->getY());
@@ -61,7 +60,7 @@ class ColorTest extends \PHPUnit_Framework_TestCase
     public function xyzColorConversionProvider()
     {
         return array(
-            array(array(0.9642,1.0000,0.8249), array(100.0000, 0.0000, 0.0000)),
+            array(array(96.42,100.00,82.49), array(100.0000, 0.0000, 0.0000)),
         );
 
     }
@@ -71,8 +70,7 @@ class ColorTest extends \PHPUnit_Framework_TestCase
      */
     public function testLabColorConversion($Lab, $XYZ)
     {
-        $color = new Color();
-        $color->setLab($Lab[0], $Lab[1], $Lab[2]);
+        $color = new Color(new Lab($Lab[0], $Lab[1], $Lab[2]));
 
         $this->assertEquals($Lab[0], $color->getL());
         $this->assertEquals($Lab[1], $color->geta());
@@ -86,8 +84,47 @@ class ColorTest extends \PHPUnit_Framework_TestCase
     public function labColorConversionProvider()
     {
         return array(
-            array(array(100.0000, 0.0000, 0.0000), array(0.9642,1.0000,0.8249)),
+            array(array(100.0000, 0.0000, 0.0000), array(96.42,100.00,82.49)),
         );
 
+    }
+
+    /** @dataProvider colorProvider */
+    public function testThatXYZColorContainsCorrectLabValues(XYZ $xyz, Lab $lab)
+    {
+        $color = new Color($xyz);
+
+        $this->assertEquals($lab->getL(), round($color->getLab()->getL(), 2));
+        $this->assertEquals($lab->getA(), round($color->getLab()->getA(), 2));
+        $this->assertEquals($lab->getB(), round($color->getLab()->getB(), 2));
+    }
+
+    /** @dataProvider colorProvider */
+    public function testThatLabColorContainsCorrectXYZValues(XYZ $xyz, Lab $lab)
+    {
+        $color = new Color($lab);
+
+        $this->assertEquals($xyz->getX(), round($color->getXYZ()->getX(), 2));
+        $this->assertEquals($xyz->getY(), round($color->getXYZ()->getY(), 2));
+        $this->assertEquals($xyz->getZ(), round($color->getXYZ()->getZ(), 2));
+    }
+
+    public function colorProvider()
+    {
+        return [
+            [new XYZ(0, 0, 0), new Lab(0, 0, 0)],
+            [new XYZ(96.42, 100, 82.49), new Lab(100, 0, 0)],
+            [new XYZ(39.71, 100, 82.49), new Lab(100, -128, 0)],
+            [new XYZ(63.93, 100, 25.94), new Lab(100, -64, 64)],
+            [new XYZ(39.71, 100, 3.85), new Lab(100, -128, 127.99)],
+            [new XYZ(39.71, 100, 363.86), new Lab(100, -128, -128)],
+            [new XYZ(191.05, 100, 363.86), new Lab(100, 128, -128)],
+            [new XYZ(191.05, 100, 3.85), new Lab(100, 128, 128)],
+            [new XYZ(-3.17, 0, -6.78), new Lab(0, -128, 128)],
+            [new XYZ(-3.17, 0, 38.84), new Lab(0, -128, -128)],
+            [new XYZ(5.89, 0, 38.84), new Lab(0, 128, -128)],
+            [new XYZ(5.89, 0, -6.78), new Lab(0, 128, 128)],
+            [new XYZ(5.89, 0, 0), new Lab(0, 127.95, 0)],
+        ];
     }
 }

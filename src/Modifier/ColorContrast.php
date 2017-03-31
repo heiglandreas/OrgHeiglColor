@@ -30,27 +30,22 @@
 namespace Org_Heigl\Color\Modifier;
 
 use Org_Heigl\Color\Color;
+use Org_Heigl\Color\ColorFactory;
+use Org_Heigl\Color\Converter\XYZ2RGB;
 
 class ColorContrast
 {
     public function __invoke(Color $color)
     {
-        $contrast = clone $color;
+        $converter = new XYZ2RGB();
+        $rgb = $converter->convertColor($color);
 
-        $arg1 = pow(1 - $color->getL(), 2);
-        $arg2 = pow(1 - $color->geta(), 2);
-        $arg3 = pow(1 - $color->getb(), 2);
-        $deltaE1 = sqrt($arg1 + $arg2 + $arg3);
-
-        $arg1 = pow(-1 - $color->getL(), 2);
-        $arg2 = pow(-1 - $color->geta(), 2);
-        $arg3 = pow(-1 - $color->getb(), 2);
-        $deltaE2 = sqrt($arg1 + $arg2 + $arg3);
-
-        if ($deltaE1 > $deltaE2) {
-            return $contrast->setLab(1, 1, 1);
+        $yiq = (($rgb[0]*256*299)+($rgb[1]*256*587)+($rgb[2]*256*114))/1000;
+        if ($yiq >= 128) {
+            return ColorFactory::createFromRgb(0, 0, 0);
         }
 
-        return $contrast->setLab(-1, -1, -1);
+        return ColorFactory::createFromRgb(1, 1, 1);
+
     }
 }
