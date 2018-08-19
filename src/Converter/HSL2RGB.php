@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright (c)2013-2013 heiglandreas
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -11,7 +11,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category 
+ * @category
  * @author    Andreas Heigl<andreas@heigl.org>
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
@@ -30,7 +30,6 @@
  */
 
 namespace Org_Heigl\Color\Converter;
-
 
 class HSL2RGB extends AbstractConverter implements ConverterInterface
 {
@@ -52,16 +51,16 @@ class HSL2RGB extends AbstractConverter implements ConverterInterface
             $RGB[1] = $input[2] * 255;
             $RGB[2] = $input[2] * 255;
         } else {
-            if ($input[2] < 0.5 ) {
+            if ($input[2] < 0.5) {
                 $var_2 = $input[2] * (1 + $input[1]);
             } else {
                 $var_2 = ($input[2] + $input[1]) - ($input[1] * $input[2]);
             }
             $var_1 = 2 * $input[2] - $var_2;
 
-            $RGB[0] = 255 * $this->Hue_2_RGB($var_1, $var_2, $input[0] + (1/3));
-            $RGB[1] = 255 * $this->Hue_2_RGB($var_1, $var_2, $input[0]);
-            $RGB[2] = 255 * $this->Hue_2_RGB($var_1, $var_2, $input[0] - (1/3));
+            $RGB[0] = 255 * $this->hueToRGB($var_1, $var_2, $input[0] + (1 / 3));
+            $RGB[1] = 255 * $this->hueToRGB($var_1, $var_2, $input[0]);
+            $RGB[2] = 255 * $this->hueToRGB($var_1, $var_2, $input[0] - (1 / 3));
         }
 
         return $RGB;
@@ -76,7 +75,7 @@ class HSL2RGB extends AbstractConverter implements ConverterInterface
      *
      * @return float
      */
-    protected function Hue_2_RGB($v1, $v2, $vH)             //Function Hue_2_RGB
+    protected function hueToRGB($v1, $v2, $vH)             //Function Hue_2_RGB
     {
         if ($vH < 0) {
             $vH += 1;

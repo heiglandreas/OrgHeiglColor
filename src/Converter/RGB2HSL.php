@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright (c)2013-2013 heiglandreas
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -11,7 +11,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category 
+ * @category
  * @author    Andreas Heigl<andreas@heigl.org>
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
@@ -30,7 +30,6 @@
  */
 
 namespace Org_Heigl\Color\Converter;
-
 
 class RGB2HSL extends AbstractConverter implements ConverterInterface
 {
@@ -58,7 +57,7 @@ class RGB2HSL extends AbstractConverter implements ConverterInterface
             $H = 0;                                //HSL results from 0 to 1
             $S = 0;
         } else {
-            if ( $L < 0.5 ) {
+            if ($L < 0.5) {
                 $S = $del_Max/($var_Max + $var_Min);
             } else {
                 $S = $del_Max/(2 - $var_Max - $var_Min);
@@ -69,9 +68,9 @@ class RGB2HSL extends AbstractConverter implements ConverterInterface
 
             if ($var_R == $var_Max) {
                 $H = $del_B - $del_G;
-            } else if ($var_G == $var_Max) {
+            } elseif ($var_G == $var_Max) {
                 $H = (1/3) + $del_R - $del_B;
-            } else if ($var_B == $var_Max) {
+            } elseif ($var_B == $var_Max) {
                     $H = (2/3) + $del_G - $del_R;
             }
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright (c)2013-2013 heiglandreas
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -11,7 +11,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category 
+ * @category
  * @author    Andreas Heigl<andreas@heigl.org>
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
@@ -32,6 +32,7 @@
 namespace Org_Heigl\Color\Profile;
 
 use Org_Heigl\Color\Exception\FileNotFoundException;
+use Org_Heigl\Color\Profile\Type\DateTimeNumber;
 
 class Renderer
 {
@@ -61,7 +62,7 @@ class Renderer
                 ->setHeader('class', fread($fh, 4))
                 ->setHeader('space', fread($fh, 4))
                 ->setHeader('pcs', fread($fh, 4))
-                ->setHeader('datetime', fread($fh, 12))
+                ->setHeader('datetime', new DateTimeNumber(fread($fh, 12)))
                 ->setHeader('sig', fread($fh, 4))
                 ->setHeader('platform', fread($fh, 4))
                 ->setHeader('flags', fread($fh, 4))

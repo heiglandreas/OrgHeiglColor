@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c)2013-2013 heiglandreas
+ * Copyright (c) Andreas Heigl<andreas@heigl.org>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -16,45 +16,40 @@
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIBILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category
  * @author    Andreas Heigl<andreas@heigl.org>
- * @copyright ©2013-2013 Andreas Heigl
- * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
- * @version   0.0
- * @since     09.04.13
- * @link      https://github.com/heiglandreas/
+ * @copyright Andreas Heigl
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT-License
+ * @since     23.03.2017
+ * @link      http://github.com/heiglandreas/pdfcalendar
  */
 
-namespace Org_Heigl\ColorTest\Converter;
+namespace Org_Heigl\ColorTest\Modifier;
 
-use Org_Heigl\Color\Converter\RGB2HSL;
+use Org_Heigl\Color\Color;
+use Org_Heigl\Color\Modifier\ColorContrast;
+use Org_Heigl\Color\Space\Lab;
 use PHPUnit\Framework\TestCase;
 
-class RGB2HSLTest extends TestCase
+class ColorContrastTest extends TestCase
 {
-
-    /**
-     * @dataProvider rgb2HslConversionProvider
-     */
-    public function testRgb2HslConversion($result, $input)
+    /** @dataProvider contrastColorProvider */
+    public function testBlackWHiteContrastIsCalculatedCorrectly($color, $contrast)
     {
-        $converter = new RGB2HSL();
+        $modifier = new ColorContrast();
 
-        $this->assertEquals($result, $converter->convert($input));
+        self::assertEquals($contrast, $modifier($color));
     }
 
-    public function rgb2HslConversionProvider()
+    public function contrastColorProvider()
     {
-        return array(
-            array(array(0,0,0),array(0,0,0)),
-            array(array(0.5, 0.75, 0.43921568627451),array(28, 196, 196)),
-            array(array(0,0,1),array(255,255,255)),
-            array(array(0,0,0.5),array(127.5,127.5,127.5)),
-            array(array(0.25,0.903,0.482), array(122.91,233.89773,11.92227)),
-        );
+        return [
+            [ColorFactory::createFromRgb(0,0,0), ColorFactory::createFromRgb(1,1,1)],
+            [ColorFactory::createFromRgb(1,1,1), ColorFactory::createFromRgb(0,0,0)],
+            [ColorFactory::createFromRgb(0.5,0.5,0.5), ColorFactory::createFromRgb(0,0,0)],
+        ];
     }
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright (c)2013-2013 heiglandreas
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -11,7 +11,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category 
+ * @category
  * @author    Andreas Heigl<andreas@heigl.org>
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
@@ -35,25 +35,105 @@ use Org_Heigl\Color\Profile\Table\ClutEntry;
 use Org_Heigl\Color\Profile\Table\Clut;
 use Org_Heigl\Color\Profile\Table\OneDimensionalTable;
 use Org_Heigl\Color\Profile\TagType\Lut16;
+use PHPUnit\Framework\TestCase;
 
-class Lut16Test extends \PHPUnit_Framework_TestCase
+class Lut16Test extends TestCase
 {
 
     public function testParsingOfBinaryData()
     {
         //$this->markTestSkipped();
-        $data = pack('n*', 0x6D66, 0x7432, 0x0000, 0x0000, 0x0403, 0x0200,
-            0x0001, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
-            0x0001, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
-            0x0001, 0x0000, 0x0002, 0x0002, 0x0000, 0xFFFF, 0x0000, 0xFFFF,
-            0x0000, 0xFFFF, 0x0000, 0xFFFF,
-            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044,
-            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044,
-            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044,
-            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044,
-            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044,
-            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044,
-            0x0000, 0xFFFF, 0x0000, 0xFFFF, 0x0000, 0xFFFF);
+        $data = pack(
+            'n*',
+            0x6D66,
+            0x7432,
+            0x0000,
+            0x0000,
+            0x0403,
+            0x0200,
+            0x0001,
+            0x0000,
+            0x0000,
+            0x0000,
+            0x0000,
+            0x0000,
+            0x0000,
+            0x0000,
+            0x0001,
+            0x0000,
+            0x0000,
+            0x0000,
+            0x0000,
+            0x0000,
+            0x0000,
+            0x0000,
+            0x0001,
+            0x0000,
+            0x0002,
+            0x0002,
+            0x0000,
+            0xFFFF,
+            0x0000,
+            0xFFFF,
+            0x0000,
+            0xFFFF,
+            0x0000,
+            0xFFFF,
+            0x0000,
+            0x0010,
+            0x0180,
+            0x0800,
+            0x0011,
+            0x0022,
+            0x0033,
+            0x0044,
+            0x0000,
+            0x0010,
+            0x0180,
+            0x0800,
+            0x0011,
+            0x0022,
+            0x0033,
+            0x0044,
+            0x0000,
+            0x0010,
+            0x0180,
+            0x0800,
+            0x0011,
+            0x0022,
+            0x0033,
+            0x0044,
+            0x0000,
+            0x0010,
+            0x0180,
+            0x0800,
+            0x0011,
+            0x0022,
+            0x0033,
+            0x0044,
+            0x0000,
+            0x0010,
+            0x0180,
+            0x0800,
+            0x0011,
+            0x0022,
+            0x0033,
+            0x0044,
+            0x0000,
+            0x0010,
+            0x0180,
+            0x0800,
+            0x0011,
+            0x0022,
+            0x0033,
+            0x0044,
+            0x0000,
+            0xFFFF,
+            0x0000,
+            0xFFFF,
+            0x0000,
+            0xFFFF
+        );
 
         $tag = new Lut16($data);
         $clut0000 = new ClutEntry(array(0,16,384));
@@ -93,8 +173,10 @@ class Lut16Test extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals(4, 'inputChannels', $tag);
         $this->assertAttributeEquals(2, 'numberOfCLUTPoints', $tag);
 
-        $this->assertAttributeEquals(array(array(1,0,0), array(0,1,0), array(0,0,1)),
-            'matrix', $tag
+        $this->assertAttributeEquals(
+            array(array(1,0,0), array(0,1,0), array(0,0,1)),
+            'matrix',
+            $tag
         );
 
         $table = new  OneDimensionalTable();

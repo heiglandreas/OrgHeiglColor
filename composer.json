@@ -18,7 +18,7 @@
         "issues" : "https://github.com/heiglandreas/OrgHeiglColor/issues"
     },
     "require" : {
-        "php" : "^5.4 || ^7.0"
+        "php" : "^5.6 || ^7.0"
     },
     "autoload" : {
         "psr-4" : {
@@ -31,7 +31,34 @@
         }
     },
     "require-dev": {
-        "phpunit/phpunit": "^4.8 || ^5.4",
-        "mockery/mockery": "^0.9.5"
+        "phpunit/phpunit": "^5.0 || ^7.0",
+        "mockery/mockery": "^1.0",
+        "tm/tooly-composer-script": "^1.2"
+    },
+    "extra" : {
+        "tools": {
+            "phpcs": {
+                "url": "https://api.getlatestassets.com/github/squizlabs/PHP_CodeSniffer/phpcs.phar?version=^3.2",
+                "sign-url": "https://api.getlatestassets.com/github/squizlabs/PHP_CodeSniffer/phpcs.phar.asc?version=^3.2"
+            },
+            "security-checker": {
+                "url": "http://get.sensiolabs.org/security-checker.phar",
+                "force-replace": true
+            }
+        }
+    },
+    "scripts": {
+        "test-junitdiff": "phpunit --color --coverage-text --coverage-clover clover.xml --log-junit junitlogs/`git rev-parse HEAD`.log",
+        "buildphar" : "./createPhar.sh",
+        "post-install-cmd": "Tooly\\ScriptHandler::installPharTools",
+        "post-update-cmd": "Tooly\\ScriptHandler::installPharTools",
+        "cs-check": "./vendor/bin/phpcs.phar --version && ./vendor/bin/phpcs.phar",
+        "test": "phpunit",
+        "test-coverage": "phpunit --coverage-clover clover.xml",
+        "upload-coverage": [
+            "curl -o coveralls -L https://github.com/php-coveralls/php-coveralls/releases/download/v2.0.0/php-coveralls.phar",
+            "chmod 755 coveralls",
+            "./coveralls -v"
+        ]
     }
 }

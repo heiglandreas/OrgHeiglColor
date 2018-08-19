@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c)2013-2013 Andreas Heigl
+ * Copyright (c) Andreas Heigl<andreas@heigl.org>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -16,42 +16,36 @@
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIBILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category
  * @author    Andreas Heigl<andreas@heigl.org>
- * @copyright ©2013-2013 Andreas Heigl
- * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
- * @version   0.0
- * @since     21.03.13
- * @link      https://github.com/heiglandreas/
+ * @copyright Andreas Heigl
+ * @license   http://www.opensource.org/licenses/mit-license.php MIT-License
+ * @since     22.03.2017
+ * @link      http://github.com/heiglandreas/pdfcalendar
  */
 
-namespace Org_Heigl\Color\Parser;
+namespace Org_Heigl\Color\Modifier;
 
 use Org_Heigl\Color\Color;
+use Org_Heigl\Color\ColorFactory;
+use Org_Heigl\Color\Converter\XYZ2RGB;
 
-/**
- * Interface ParserInterface
- *
- * @package Org\Heigl\Color\Parser
- * @author    Andreas Heigl<andreas@heigl.org>
- * @copyright ©2013-2013 Andreas Heigl
- * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
- * @version   0.0
- * @since     21.03.13
- * @link      https://github.com/heiglandreas/
- */
-interface ParserInterface
+class ColorContrast
 {
-    /**
-     * Parse the actual data
-     *
-     * @param array $input The data to parse
-     *
-     * @return Color
-     */
-    public function parse(array $input);
+    public function __invoke(Color $color)
+    {
+        $converter = new XYZ2RGB();
+        $rgb = $converter->convertColor($color);
+
+        $yiq = (($rgb[0]*256*299)+($rgb[1]*256*587)+($rgb[2]*256*114))/1000;
+        if ($yiq >= 128) {
+            return ColorFactory::createFromRgb(0, 0, 0);
+        }
+
+        return ColorFactory::createFromRgb(1, 1, 1);
+
+    }
 }
