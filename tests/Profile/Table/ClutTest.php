@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright (c)2013-2013 heiglandreas
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -11,7 +11,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -20,7 +20,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- * @category 
+ * @category
  * @author    Andreas Heigl<andreas@heigl.org>
  * @copyright ©2013-2013 Andreas Heigl
  * @license   http://www.opesource.org/licenses/mit-license.php MIT-License
@@ -31,7 +31,6 @@
 
 namespace Org_Heigl\ColorTest\Profile\Table;
 
-
 use Org_Heigl\Color\Profile\Table\Clut;
 use Org_Heigl\Color\Profile\Table\ClutEntry;
 use Mockery as M;
@@ -41,13 +40,56 @@ class ClutTest extends TestCase
 {
     public function testSettingEntry()
     {
-        $entry = pack('n*',
-            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044,
-            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044,
-            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044,
-            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044,
-            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044,
-            0x0000, 0x0010, 0x0180, 0x0800, 0x0011, 0x0022, 0x0033, 0x0044
+        $entry = pack(
+            'n*',
+            0x0000,
+            0x0010,
+            0x0180,
+            0x0800,
+            0x0011,
+            0x0022,
+            0x0033,
+            0x0044,
+            0x0000,
+            0x0010,
+            0x0180,
+            0x0800,
+            0x0011,
+            0x0022,
+            0x0033,
+            0x0044,
+            0x0000,
+            0x0010,
+            0x0180,
+            0x0800,
+            0x0011,
+            0x0022,
+            0x0033,
+            0x0044,
+            0x0000,
+            0x0010,
+            0x0180,
+            0x0800,
+            0x0011,
+            0x0022,
+            0x0033,
+            0x0044,
+            0x0000,
+            0x0010,
+            0x0180,
+            0x0800,
+            0x0011,
+            0x0022,
+            0x0033,
+            0x0044,
+            0x0000,
+            0x0010,
+            0x0180,
+            0x0800,
+            0x0011,
+            0x0022,
+            0x0033,
+            0x0044
         );
 
         $clut = M::mock('\Org_Heigl\Color\Profile\Table\Clut');
@@ -89,7 +131,5 @@ class ClutTest extends TestCase
         $obj = new Clut(array($oc1, $oc2, $oc3));
 
         $this->assertEquals(array(0.5), $obj->getValue(array(0.25, 0.75)));
-
     }
-
 }

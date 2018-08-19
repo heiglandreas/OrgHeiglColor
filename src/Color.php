@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright (c)2013-2013 Andreas Heigl
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
@@ -11,7 +11,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -31,7 +31,6 @@
 
 namespace Org_Heigl\Color;
 
-use Org_Heigl\Color\Converter as C;
 use Org_Heigl\Color\Space\Lab;
 use Org_Heigl\Color\Space\XYZ;
 
@@ -208,7 +207,7 @@ class Color
         } else {
             $var_Y = ($var_Y - 16 / 116 ) / 7.787;
         }
-        if (pow($var_X, 3) > 0.008856 ) {
+        if (pow($var_X, 3) > 0.008856) {
             $var_X = pow($var_X, 3);
         } else {
             $var_X = ($var_X - 16 / 116 ) / 7.787;
@@ -260,8 +259,7 @@ class Color
             500 * ($var_X - $var_Y),
             200 * ($var_Y - $var_Z)
         );
-
-        }
+    }
 
     /**
      * Set the XYZ
