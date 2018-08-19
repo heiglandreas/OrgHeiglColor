@@ -33,8 +33,10 @@ namespace Org_Heigl\ColorTest\Converter;
 
 
 use Org_Heigl\Color\Converter\Plain;
+use PHPUnit\Framework\TestCase;
 
-class PlainTest extends \PHPUnit_Framework_TestCase {
+class PlainTest extends TestCase
+{
 
     public function testConversion()
     {

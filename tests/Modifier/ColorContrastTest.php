@@ -29,10 +29,12 @@
 
 namespace Org_Heigl\ColorTest\Modifier;
 
-use Org_Heigl\Color\ColorFactory;
+use Org_Heigl\Color\Color;
 use Org_Heigl\Color\Modifier\ColorContrast;
+use Org_Heigl\Color\Space\Lab;
+use PHPUnit\Framework\TestCase;
 
-class ColorContrastTest extends \PHPUnit_Framework_TestCase
+class ColorContrastTest extends TestCase
 {
     /** @dataProvider contrastColorProvider */
     public function testBlackWHiteContrastIsCalculatedCorrectly($color, $contrast)

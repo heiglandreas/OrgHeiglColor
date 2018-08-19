@@ -32,8 +32,9 @@
 namespace Org_Heigl\ColorTest\Profile\Table;
 
 use Org_Heigl\Color\Profile\Table\ClutFactory;
+use PHPUnit\Framework\TestCase;
 
-class ClutFactoryTest extends \PHPUnit_Framework_TestCase
+class ClutFactoryTest extends TestCase
 {
 
     public function testSettingClutPoints()

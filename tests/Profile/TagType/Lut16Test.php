@@ -35,8 +35,9 @@ use Org_Heigl\Color\Profile\Table\ClutEntry;
 use Org_Heigl\Color\Profile\Table\Clut;
 use Org_Heigl\Color\Profile\Table\OneDimensionalTable;
 use Org_Heigl\Color\Profile\TagType\Lut16;
+use PHPUnit\Framework\TestCase;
 
-class Lut16Test extends \PHPUnit_Framework_TestCase
+class Lut16Test extends TestCase
 {
 
     public function testParsingOfBinaryData()

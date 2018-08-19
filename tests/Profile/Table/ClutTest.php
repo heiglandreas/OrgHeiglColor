@@ -35,8 +35,9 @@ namespace Org_Heigl\ColorTest\Profile\Table;
 use Org_Heigl\Color\Profile\Table\Clut;
 use Org_Heigl\Color\Profile\Table\ClutEntry;
 use Mockery as M;
+use PHPUnit\Framework\TestCase;
 
-class ClutTest extends \PHPUnit_Framework_TestCase
+class ClutTest extends TestCase
 {
     public function testSettingEntry()
     {

@@ -34,8 +34,9 @@ namespace Org_Heigl\ColorTest\Space;
 
 use Org_Heigl\Color\Converter\RGB2XYZ;
 use Org_Heigl\Color\Space\RGB;
+use PHPUnit\Framework\TestCase;
 
-class RGBTest extends \PHPUnit_Framework_TestCase
+class RGBTest extends TestCase
 {
 
 	/**

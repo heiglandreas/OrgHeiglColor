@@ -33,8 +33,9 @@ namespace Org_Heigl\ColorTest\Converter;
 
 
 use Org_Heigl\Color\Converter\HSL2RGB;
+use PHPUnit\Framework\TestCase;
 
-class HSL2RGBTest extends \PHPUnit_Framework_TestCase
+class HSL2RGBTest extends TestCase
 {
 
     /**

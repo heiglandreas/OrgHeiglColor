@@ -32,8 +32,10 @@
 namespace Org_Heigl\ColorTest\Parser;
 
 use Org_Heigl\Color\Parser\S15Fixed16Number;
+use PHPUnit\Framework\TestCase;
 
-class S15Fixed16NumberTest extends \PHPUnit_Framework_TestCase {
+class S15Fixed16NumberTest extends TestCase
+{
 
     /**
      * @param $bin

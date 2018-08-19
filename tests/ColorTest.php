@@ -34,8 +34,9 @@ namespace Org_Heigl\ColorTest;
 use Org_Heigl\Color\Color;
 use Org_Heigl\Color\Space\Lab;
 use Org_Heigl\Color\Space\XYZ;
+use PHPUnit\Framework\TestCase;
 
-class ColorTest extends \PHPUnit_Framework_TestCase
+class ColorTest extends TestCase
 {
 
     /**

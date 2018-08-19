@@ -34,8 +34,10 @@ namespace Org_Heigl\ColorTest\Profile\Table;
 use Org_Heigl\Color\Color;
 use Org_Heigl\Color\Profile\Table\Bluepoint;
 use Org_Heigl\Color\Space\XYZ;
+use PHPUnit\Framework\TestCase;
 
-class BluepointTest extends \PHPUnit_Framework_TestCase {
+class BluepointTest extends TestCase
+{
 
     public function testRenderingBluepoint()
     {

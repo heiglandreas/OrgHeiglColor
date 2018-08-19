@@ -35,8 +35,9 @@ namespace Org_Heigl\ColorTest\Handler;
 use Org_Heigl\Color\Color;
 use Org_Heigl\Color\Handler\MergeHandler;
 use Org_Heigl\Color\Space\XYZ;
+use PHPUnit\Framework\TestCase;
 
-class MergeHandlerTest extends \PHPUnit_Framework_TestCase
+class MergeHandlerTest extends TestCase
 {
     /**
      * @dataProvider mergeProvider

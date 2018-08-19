@@ -32,8 +32,10 @@
 namespace Org_Heigl\IntegrationTest;
 
 use Org_Heigl\Color as C;
+use PHPUnit\Framework\TestCase;
 
-class BasicTest extends \PHPUnit_Framework_TestCase {
+class BasicTest extends TestCase
+{
 
     public function testExampleZero()
     {

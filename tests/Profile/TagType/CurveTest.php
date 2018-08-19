@@ -32,8 +32,9 @@
 namespace Org_Heigl\ColorTest\Profile\TagType;
 
 use Org_Heigl\Color\Profile\TagType\Curve;
+use PHPUnit\Framework\TestCase;
 
-class CurveTest extends \PHPUnit_Framework_TestCase
+class CurveTest extends TestCase
 {
 
     public function testParsingOfBinaryData()

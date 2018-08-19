@@ -34,8 +34,9 @@ namespace Org_Heigl\ColorTest\Converter;
 
 use Org_Heigl\Color\Converter\ConverterChain;
 use Mockery as M;
+use PHPUnit\Framework\TestCase;
 
-class ConverterChainTest extends \PHPUnit_Framework_TestCase {
+class ConverterChainTest extends TestCase {
 
     public function testConverterChainOrder()
     {
